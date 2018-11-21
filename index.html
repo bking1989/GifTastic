@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GifTastic</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-header">
+                Giphy Topic Search
+            </div>
+            <div id="buttonDiv" class="card-body"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                New Search Topic
+            </div>
+            <div id="searchDiv" class="card-body">
+                <div class="form-row">
+                    <div class="col-sm-8">
+                        <label class="sr-only" for="searchBox">Search Box</label>
+                        <input id="searchBox" type="search" class="form-control my-2" placeholder="Insert Keyword Here">
+                    </div>
+                    <div class="col-sm-auto">
+                        <button id="searchBtn" type="submit" class="btn btn-primary my-2 mr-1">Add Topic</button>
+                        <button id="clearBtn" type="submit" class="btn btn-danger my-2 mr-1">Clear Results</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                Search Results
+            </div>
+            <div id="resultsDiv" class="card-body"></div>
+        </div>
+        <br>
+    </div>
+</body>
+</html>

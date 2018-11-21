@@ -1,0 +1,12 @@
+/* Search Results */
+
+#resultsDiv{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.gifContainer{
+    display: inline-block;
+}
