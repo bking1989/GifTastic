@@ -118,11 +118,6 @@ $(document).ready(function() {
                 // $(faveBtn).appendTo(gifDiv);
                 $(gifDiv).prependTo(resultsBox);
             };
-
-            // The function for the 'Add to Favorites' button
-            $(".fave-btn").on("click",function() {
-
-            });
             
             // The function for clicking the GIF image to play it
             $("img.aniGif").on("click",function () {
