@@ -94,8 +94,8 @@ $(document).ready(function() {
 
                 $(gifURL).append("<b>URL:</b> " + JSON.stringify(results[i].bitly_url).replace(/['"]+/g, ''));
                 $(gifRating).append("<b>Rating:</b> " + JSON.stringify(results[i].rating).toUpperCase().replace(/['"]+/g, ''));
-                $(gifSrc).append("<b>Source:</b> " + JSON.stringify(results[i].source_tld).replace(/['"]+/g, ''));
-
+                $(gifSrc).append("<b>Source:</b> " + (JSON.stringify(results[i].source_tld).replace(/['"]+/g, '') || "Unknown"));
+                
                 // Create a download button for the GIF image
                 var downloadImage = results[i].images.original.url;
                 var downloadBtn = $("<a>");
