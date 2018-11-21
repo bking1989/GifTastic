@@ -100,7 +100,7 @@ $(document).ready(function() {
                 var downloadImage = results[i].images.original.url;
                 var downloadBtn = $("<a>");
                 downloadBtn.append("<i class='fa fa-download mr-2'></i>Download");
-                downloadBtn.addClass("btn btn-dark text-white mr-2");
+                downloadBtn.addClass("btn btn-dark btn-sm text-white mr-2");
                 downloadBtn.attr("href",downloadImage);
                 downloadBtn.attr("target","_blank");
 
