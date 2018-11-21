@@ -2,16 +2,13 @@ $(document).ready(function() {
     // The theme for the GIF display
     var topics = ["Samuel L. Jackson","Jeff Goldblum","Lupita Nyong'o","Scarlett Johansson"];
 
-    // For loop to generate buttons for each of the topics
+    // Function to generate buttons for each of the topics
     function createBtn() {
-        // Empty the container, if not already so
-        $("#buttonDiv").empty();
-
         // Generates a button for each entry in the array
         for (var i = 0; i < topics.length; i++) {
-            var topicBtn = $('<button>');
+            var topicBtn = $("<button>");
             topicBtn.addClass("btn btn-primary m-1 topic-btn");
-            topicBtn.attr("data-keyword",topics[i]);
+            topicBtn.attr('data-keyword',topics[i]);
             topicBtn.text(topics[i]);
             $("#buttonDiv").append(topicBtn);
         };
@@ -21,17 +18,33 @@ $(document).ready(function() {
     $("#searchBtn").on("click",function() {
         // Code to prevent the button from submitting placeholder text as input
         event.preventDefault();
-        
-        // Clicking sends the term into the topic button box, and clears the input field
-        var searchTerm = $("#searchBox").val().trim();
-        topics.push(searchTerm);
-        createBtn();
-        $("#searchBox").val("");
+
+        // If the input is empty, then nothing happens
+        if ($("#searchBox").val() == 0) {
+            void(0);
+        } else {
+            // Empty the existing list of buttons
+            $("#buttonDiv").empty();
+
+            // Clicking sends the term into the topic button box, and clears the input field
+            var searchTerm = $("#searchBox").val().trim();
+            topics.push(searchTerm);
+            createBtn();
+            $("#searchBox").val("");
+        };
     });
 
-    // When you click the clear button, it will clear out the search results
+    // When you click the 'Clear Topics' button, it will clear out the topic box
+    $("#topicClear").on("click",function() {
+        // Clear out the topics array
+        topics = [];
+        
+        // Clear out the box holding the buttons
+        $("#buttonDiv").empty();
+    });
+
+    // When you click the 'Clear Results' button, it will clear out the search results
     $("#clearBtn").on("click",function() {
-        // Clear said area
         $("#resultsDiv").empty();
     });
 
@@ -82,14 +95,34 @@ $(document).ready(function() {
                 $(gifURL).append("<b>URL:</b> " + JSON.stringify(results[i].bitly_url).replace(/['"]+/g, ''));
                 $(gifRating).append("<b>Rating:</b> " + JSON.stringify(results[i].rating).toUpperCase().replace(/['"]+/g, ''));
                 $(gifSrc).append("<b>Source:</b> " + JSON.stringify(results[i].source_tld).replace(/['"]+/g, ''));
+
+                // Create a download button for the GIF image
+                var downloadImage = results[i].images.original.url;
+                var downloadBtn = $("<a>");
+                downloadBtn.append("<i class='fa fa-download mr-2'></i>Download");
+                downloadBtn.addClass("btn btn-dark text-white mr-2");
+                downloadBtn.attr("href",downloadImage);
+                downloadBtn.attr("target","_blank");
+
+                // Create a button to add the GIF image to their favorites
+                // var faveBtn = $("<a>");
+                // faveBtn.append("<i class='fa fa-heart mr-2 fave-btn'></i>Add to Favorites");
+                // faveBtn.addClass("btn btn-dark text-white");
                 
                 // Append the image and info to the containing <div>, then append it to the results area
                 $(gifImage).appendTo(gifDiv);
                 $(gifURL).appendTo(gifDiv);
                 $(gifRating).appendTo(gifDiv);
                 $(gifSrc).appendTo(gifDiv);
+                $(downloadBtn).appendTo(gifDiv);
+                // $(faveBtn).appendTo(gifDiv);
                 $(gifDiv).prependTo(resultsBox);
             };
+
+            // The function for the 'Add to Favorites' button
+            $(".fave-btn").on("click",function() {
+
+            });
             
             // The function for clicking the GIF image to play it
             $("img.aniGif").on("click",function () {
