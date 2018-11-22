@@ -100,10 +100,21 @@ $(document).ready(function() {
                 downloadBtn.attr("href",downloadImage);
                 downloadBtn.attr("target","_blank");
 
-                // Create a button to add the GIF image to their favorites
-                // var faveBtn = $("<a>");
-                // faveBtn.append("<i class='fa fa-heart mr-2 fave-btn'></i>Add to Favorites");
-                // faveBtn.addClass("btn btn-dark text-white");
+                // Create a button for adding to a user's 'favorites'
+                var favoriteBtn = $("<button>");
+                var favoriteStill = $(gifImage).attr("data-still");
+                var favoriteAni = $(gifImage).attr("data-animate");
+                var favoriteURL = JSON.stringify(results[i].bitly_url).replace(/['"]+/g, '');
+                var favoriteRating = JSON.stringify(results[i].rating).toUpperCase().replace(/['"]+/g, '');
+                var favoriteSrc = JSON.stringify(results[i].source_tld).replace(/['"]+/g, '') || "Unknown";
+                favoriteBtn.append("<i class='fa fa-heart mr-2'></i>Add to Favorites");
+                favoriteBtn.addClass("btn btn-dark btn-sm text-white mr-2 fave-btn");
+                favoriteBtn.attr("data-still",favoriteStill);
+                favoriteBtn.attr("data-animate",favoriteAni);
+                favoriteBtn.attr("data-state","still");
+                favoriteBtn.attr("data-url",favoriteURL);
+                favoriteBtn.attr("data-rating",favoriteRating);
+                favoriteBtn.attr("data-src",favoriteSrc);
                 
                 // Append the image and info to the containing <div>, then append it to the results area
                 $(gifImage).appendTo(gifDiv);
@@ -111,16 +122,51 @@ $(document).ready(function() {
                 $(gifRating).appendTo(gifDiv);
                 $(gifSrc).appendTo(gifDiv);
                 $(downloadBtn).appendTo(gifDiv);
-                // $(faveBtn).appendTo(gifDiv);
+                $(favoriteBtn).appendTo(gifDiv);
                 $(gifDiv).prependTo(resultsBox);
             };
+
+            // When the 'Add to Favorites' button is clicked, the information is moved to the favorites section
+            $(".fave-btn").on("click", function() {
+                // Create a container to store our favorite
+                var favContainer = $("<div>");
+                favContainer.addClass("faveContainer m-2");
+
+                // Set up the <img> tag for the favorite GIF image
+                var favoriteImage = $("<img>");
+                favoriteImage.addClass("aniGif img-fluid");
+                favoriteImage.attr("src",$(this).attr("data-still"));
+                favoriteImage.attr("data-still",$(this).attr("data-still"));
+                favoriteImage.attr("data-animate",$(this).attr("data-animate"));
+                favoriteImage.attr("data-state",$(this).attr("data-state"));
+
+                // Set up the <p> tags for our favorite image's info
+                var urlTag = $("<p>");
+                var ratingTag = $("<p>");
+                var srcTag = $("<p>");
+
+                urlTag.addClass("my-1");
+                ratingTag.addClass("my-1");
+                srcTag.addClass("my-1");
+
+                urlTag.append("<b>URL: </b>" + $(this).attr("data-url"));
+                ratingTag.append("<b>Rating: </b>" + $(this).attr("data-rating"));
+                srcTag.append("<b>Source: </b>" + $(this).attr("data-src"));
+
+                // Append it to our favorites section
+                $(favoriteImage).appendTo(favContainer);
+                $(urlTag).appendTo(favContainer);
+                $(ratingTag).appendTo(favContainer);
+                $(srcTag).appendTo(favContainer);
+                $(favContainer).appendTo("#favoritesDiv");
+            });
             
             // The function for clicking the GIF image to play it
             $("img.aniGif").on("click",function () {
                 // Define the image's state of animation
                 var state = $(this).attr("data-state");
                 
-                // If the image isn't animated, we switch it
+                // If the image isn't animated, we switch it, and vice versa
                 if (state === "still") {
                     $(this).attr("src",$(this).attr("data-animate"));
                     $(this).attr("data-state","animate")
