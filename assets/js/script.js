@@ -1,10 +1,9 @@
 $(document).ready(function() {
-    // The theme for the GIF display
+    // This array is going to five us the themed, initial buttons
     var topics = ["Samuel L. Jackson","Jeff Goldblum","Lupita Nyong'o","Scarlett Johansson"];
 
-    // Function to generate buttons for each of the topics
+    // This function will be used to generate the initial buttons from an array
     function createBtn() {
-        // Generates a button for each entry in the array
         for (var i = 0; i < topics.length; i++) {
             var topicBtn = $("<button>");
             topicBtn.addClass("btn btn-primary m-1 topic-btn");
@@ -17,16 +16,16 @@ $(document).ready(function() {
     // When you click the search button, it makes a button for the search term
     $("#searchBtn").on("click",function() {
         // Code to prevent the button from submitting placeholder text as input
+        // In addition, if the input is empty, then nothing happens
         event.preventDefault();
 
-        // If the input is empty, then nothing happens
         if ($("#searchBox").val() == 0) {
             void(0);
         } else {
-            // Empty the existing list of buttons
+            // If our input box has a string, it delivers it to the button <div>
+            // First, we empty the existing list of buttons, then rebuild it with the new entry
             $("#buttonDiv").empty();
 
-            // Clicking sends the term into the topic button box, and clears the input field
             var searchTerm = $("#searchBox").val().trim();
             topics.push(searchTerm);
             createBtn();
@@ -34,12 +33,9 @@ $(document).ready(function() {
         };
     });
 
-    // When you click the 'Clear Topics' button, it will clear out the topic box
+    // When you click the 'Clear Topics' button, it will clear out the array and the button <div>
     $("#topicClear").on("click",function() {
-        // Clear out the topics array
         topics = [];
-        
-        // Clear out the box holding the buttons
         $("#buttonDiv").empty();
     });
 
