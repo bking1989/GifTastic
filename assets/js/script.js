@@ -30,6 +30,11 @@ $(document).ready(function() {
         };
     };
 
+    // The function for removing a GIF from favorites
+    function removeFav() {
+        $(this).parent().remove();
+    };
+
     // When you click the search button, it makes a button for the search term
     $("#searchBtn").on("click",function() {
         // Code to prevent the button from submitting placeholder text as input
@@ -96,6 +101,7 @@ $(document).ready(function() {
                 gifImage.attr("src",results[i].images.fixed_height_still.url);
                 gifImage.attr("data-still",results[i].images.fixed_height_still.url);
                 gifImage.attr("data-animate",results[i].images.fixed_height.url);
+                gifImage.attr("data-original",results[i].images.original.url);
                 gifImage.attr("data-state","still");
 
                 // Set up the <p> tag for the URL, rating, and source
@@ -117,13 +123,15 @@ $(document).ready(function() {
 
                 downloadBtn.append("<i class='fa fa-download mr-2'></i>Download");
                 downloadBtn.addClass("btn btn-dark btn-sm text-white mr-2");
+
                 downloadBtn.attr("href",downloadImage);
-                downloadBtn.attr("target","_blank");
+                downloadBtn.attr("download","giphy_image.gif");
 
                 // Create a button for adding to a user's 'favorites'
                 var favoriteBtn = $("<button>");
                 var favoriteStill = $(gifImage).attr("data-still");
                 var favoriteAni = $(gifImage).attr("data-animate");
+                var favoriteOriginal = $(gifImage).attr("data-original");
                 var favoriteURL = JSON.stringify(results[i].bitly_url).replace(/['"]+/g, '');
                 var favoriteRating = JSON.stringify(results[i].rating).toUpperCase().replace(/['"]+/g, '');
                 var favoriteSrc = JSON.stringify(results[i].source_tld).replace(/['"]+/g, '') || "Unknown";
@@ -134,6 +142,7 @@ $(document).ready(function() {
 
                 favoriteBtn.attr("data-still",favoriteStill);
                 favoriteBtn.attr("data-animate",favoriteAni);
+                favoriteBtn.attr("data-original",favoriteOriginal);
                 favoriteBtn.attr("data-state","still");
                 favoriteBtn.attr("data-url",favoriteURL);
                 favoriteBtn.attr("data-rating",favoriteRating);
@@ -164,6 +173,7 @@ $(document).ready(function() {
                 favoriteImage.attr("src",$(this).attr("data-still"));
                 favoriteImage.attr("data-still",$(this).attr("data-still"));
                 favoriteImage.attr("data-animate",$(this).attr("data-animate"));
+                favoriteImage.attr("data-original",$(this).attr("data-original"));
                 favoriteImage.attr("data-state",$(this).attr("data-state"));
 
                 // Set up the <p> tags for our favorite image's info
@@ -179,11 +189,28 @@ $(document).ready(function() {
                 ratingTag.append("<b>Rating: </b>" + $(this).attr("data-rating"));
                 srcTag.append("<b>Source: </b>" + $(this).attr("data-src"));
 
+                // Set up a button to download the favorite GIF image
+                var downloadImage = $(this).attr("data-original");
+                var downloadBtn = $("<a>");
+
+                downloadBtn.append("<i class='fa fa-download mr-2'></i>Download");
+                downloadBtn.addClass("btn btn-dark btn-sm text-white mr-2");
+                
+                downloadBtn.attr("href",downloadImage);
+                downloadBtn.attr("download","giphy_image.gif");
+
+                // Set up a button to remove the GIF image from favorites
+                var removeBtn = $("<button>");
+                removeBtn.append("<i class='fa fa-times mr-2'></i>Remove from Favorites");
+                removeBtn.addClass("btn btn-dark btn-sm text-white mr-2 remove-btn");
+
                 // Append it to our favorites section
                 $(favoriteImage).appendTo(favContainer);
                 $(urlTag).appendTo(favContainer);
                 $(ratingTag).appendTo(favContainer);
                 $(srcTag).appendTo(favContainer);
+                $(downloadBtn).appendTo(favContainer);
+                $(removeBtn).appendTo(favContainer);
 
                 $(favContainer).appendTo("#favoritesDiv");
             });
@@ -195,6 +222,9 @@ $(document).ready(function() {
 
     // A listener for whenever a GIF is clicked on
     $(document).on("click", ".aniGif", gifClick);
+
+    // A listener for whenever the 'Remove from Favorites' button is clicked on
+    $(document).on("click", ".remove-btn", removeFav);
 
     // Initial button creation
     createBtn();
