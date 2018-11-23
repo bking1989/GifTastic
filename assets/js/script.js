@@ -1,15 +1,32 @@
 $(document).ready(function() {
     // This array is going to five us the themed, initial buttons
-    var topics = ["Samuel L. Jackson","Jeff Goldblum","Lupita Nyong'o","Scarlett Johansson"];
+    var topics = ["Cat","Dog","Bird","Funny"];
 
     // This function will be used to generate the initial buttons from an array
     function createBtn() {
         for (var i = 0; i < topics.length; i++) {
             var topicBtn = $("<button>");
+
             topicBtn.addClass("btn btn-primary m-1 topic-btn");
             topicBtn.attr('data-keyword',topics[i]);
             topicBtn.text(topics[i]);
+
             $("#buttonDiv").append(topicBtn);
+        };
+    };
+
+    // The function for clicking the GIF image to play it
+    function gifClick() {
+        // Define the image's state of animation
+        var state = $(this).attr("data-state");
+        
+        // If the image isn't animated, we switch it, and vice versa
+        if (state === "still") {
+            $(this).attr("src",$(this).attr("data-animate"));
+            $(this).attr("data-state","animate")
+        } else if (state === "animate") {
+            $(this).attr("src",$(this).attr("data-still"));
+            $(this).attr("data-state","still");
         };
     };
 
@@ -67,6 +84,7 @@ $(document).ready(function() {
             for (var i = 0; i < results.length; i++) {
                 // Set up a container <div> for the GIF and rating
                 var gifDiv = $("<div>");
+                
                 gifDiv.addClass("gifContainer m-2");
                 
                 // Set up the <img> tag for the GIF image itself
@@ -74,6 +92,7 @@ $(document).ready(function() {
                 
                 // Set up class and attributes for said <img> tag
                 gifImage.addClass("aniGif img-fluid");
+
                 gifImage.attr("src",results[i].images.fixed_height_still.url);
                 gifImage.attr("data-still",results[i].images.fixed_height_still.url);
                 gifImage.attr("data-animate",results[i].images.fixed_height.url);
@@ -95,6 +114,7 @@ $(document).ready(function() {
                 // Create a download button for the GIF image
                 var downloadImage = results[i].images.original.url;
                 var downloadBtn = $("<a>");
+
                 downloadBtn.append("<i class='fa fa-download mr-2'></i>Download");
                 downloadBtn.addClass("btn btn-dark btn-sm text-white mr-2");
                 downloadBtn.attr("href",downloadImage);
@@ -107,8 +127,11 @@ $(document).ready(function() {
                 var favoriteURL = JSON.stringify(results[i].bitly_url).replace(/['"]+/g, '');
                 var favoriteRating = JSON.stringify(results[i].rating).toUpperCase().replace(/['"]+/g, '');
                 var favoriteSrc = JSON.stringify(results[i].source_tld).replace(/['"]+/g, '') || "Unknown";
+
                 favoriteBtn.append("<i class='fa fa-heart mr-2'></i>Add to Favorites");
+
                 favoriteBtn.addClass("btn btn-dark btn-sm text-white mr-2 fave-btn");
+
                 favoriteBtn.attr("data-still",favoriteStill);
                 favoriteBtn.attr("data-animate",favoriteAni);
                 favoriteBtn.attr("data-state","still");
@@ -123,6 +146,7 @@ $(document).ready(function() {
                 $(gifSrc).appendTo(gifDiv);
                 $(downloadBtn).appendTo(gifDiv);
                 $(favoriteBtn).appendTo(gifDiv);
+
                 $(gifDiv).prependTo(resultsBox);
             };
 
@@ -134,7 +158,9 @@ $(document).ready(function() {
 
                 // Set up the <img> tag for the favorite GIF image
                 var favoriteImage = $("<img>");
+
                 favoriteImage.addClass("aniGif img-fluid");
+
                 favoriteImage.attr("src",$(this).attr("data-still"));
                 favoriteImage.attr("data-still",$(this).attr("data-still"));
                 favoriteImage.attr("data-animate",$(this).attr("data-animate"));
@@ -158,28 +184,17 @@ $(document).ready(function() {
                 $(urlTag).appendTo(favContainer);
                 $(ratingTag).appendTo(favContainer);
                 $(srcTag).appendTo(favContainer);
+
                 $(favContainer).appendTo("#favoritesDiv");
-            });
-            
-            // The function for clicking the GIF image to play it
-            $("img.aniGif").on("click",function () {
-                // Define the image's state of animation
-                var state = $(this).attr("data-state");
-                
-                // If the image isn't animated, we switch it, and vice versa
-                if (state === "still") {
-                    $(this).attr("src",$(this).attr("data-animate"));
-                    $(this).attr("data-state","animate")
-                } else if (state === "animate") {
-                    $(this).attr("src",$(this).attr("data-still"));
-                    $(this).attr("data-state","still");
-                };
             });
         });
     };
-
+    
     // A listener for whenever a topic button is clicked on
     $(document).on("click", ".topic-btn", displayGIF);
+
+    // A listener for whenever a GIF is clicked on
+    $(document).on("click", ".aniGif", gifClick);
 
     // Initial button creation
     createBtn();
