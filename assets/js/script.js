@@ -35,6 +35,13 @@ $(document).ready(function() {
         $(this).parent().remove();
     };
 
+    // The function to scroll back to up to the top of the page
+    function backToTop() {
+        event.preventDefault();
+
+        $("html,body").animate({scrollTop: 0}, 800);
+    };
+
     // When you click the search button, it makes a button for the search term
     $("#searchBtn").on("click",function() {
         // Code to prevent the button from submitting placeholder text as input
@@ -243,6 +250,9 @@ $(document).ready(function() {
             };
         };
     });
+
+    // A listener for the 'scroll to top' button
+    $(document).on("click","#topBtn",backToTop);
 
     // Initial button creation
     createBtn();
