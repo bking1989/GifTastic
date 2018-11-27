@@ -226,6 +226,24 @@ $(document).ready(function() {
     // A listener for whenever the 'Remove from Favorites' button is clicked on
     $(document).on("click", ".remove-btn", removeFav);
 
+    // An additional function for the 'Enter' button
+    $(document).keypress(function() {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+
+            if ($("#searchBox").val() == 0) {
+                void(0);
+            } else {
+                $("#buttonDiv").empty();
+
+                var searchTerm = $("#searchBox").val().trim();
+                topics.push(searchTerm);
+                createBtn();
+                $("#searchBox").val("");
+            };
+        };
+    });
+
     // Initial button creation
     createBtn();
 });
