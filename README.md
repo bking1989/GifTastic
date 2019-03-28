@@ -1,6 +1,6 @@
 # GifTastic
 
-![Screenshot of App](https://bking1989.github.io/GifTastic/assets/GIFTastic Screenshot.png)
+![Screenshot of App](https://bking1989.github.io/GifTastic/assets/GIFTastic%20Screenshot.png)
 
 This is a code boot camp assignment that I made using basic JavaScript, jQuery, and the [Giphy API](https://developers.giphy.com/). The finished version of the assignment can be found [here](http://bking1989.github.io/GifTastic).
 
