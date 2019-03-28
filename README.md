@@ -1,5 +1,7 @@
 # GifTastic
 
+!(Screenshot of App)[https://bking1989.github.io/GifTastic/assets/GIFTastic Screenshot.png]
+
 This is a code boot camp assignment that I made using basic JavaScript, jQuery, and the [Giphy API](https://developers.giphy.com/). The finished version of the assignment can be found [here](http://bking1989.github.io/GifTastic).
 
 The task we were assigned was to take the API, learn how it worked, and develop a web application that registered search terms and made search queries that produced animated GIF images. This was done making AJAX calls using jQuery, and the results were produced using the JSON object that the calls brought back.
